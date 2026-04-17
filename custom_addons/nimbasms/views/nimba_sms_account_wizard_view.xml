@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Nimba SMS Account Configuration Wizard Form -->
+    <record id="sms_nimba_account_wizard_form" model="ir.ui.view">
+        <field name="name">sms.nimba.account.wizard.form</field>
+        <field name="model">sms.nimba.account.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Configure Nimba SMS Provider">
+
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Configure Nimba SMS Provider</h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="company_id" readonly="1" invisible="1"/>
+
+                            <field name="nimba_service_id"
+                                   placeholder="Your Service ID from Nimba SMS dashboard"
+                                   required="1"/>
+
+                            <field name="nimba_secret_token"
+                                   password="True"
+                                   placeholder="Your Secret Token from Nimba SMS"
+                                   required="1"/>
+
+                            <field name="nimba_sender_name"
+                                   placeholder="e.g., MYAPP or 12345"
+                                   required="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Setup Instructions">
+                            <div class="alert alert-info" role="alert">
+                                <h4><i class="fa fa-info-circle"/> How to Configure Nimba SMS</h4>
+                                <p><strong>Getting Started with Nimba SMS:</strong></p>
+                                <ol>
+                                    <li>Sign up at <a href="https://www.nimbasms.com" target="_blank">www.nimbasms.com</a></li>
+                                    <li>Log in to your Nimba SMS dashboard</li>
+                                    <li>Navigate to Dashboard → Développeurs or visit <a href="https://developers.nimbasms.com" target="_blank">developers.nimbasms.com</a> for API documentation</li>
+                                    <li>Copy your <strong>Service ID</strong> and <strong>Secret Token</strong></li>
+                                    <li>Register and get your <strong>Sender Name</strong> approved</li>
+                                    <li>Enter your credentials in the fields above</li>
+                                    <li>Click <strong>Test Connection</strong> to verify setup</li>
+                                </ol>
+
+                                <p class="mt16"><strong>Important Notes:</strong></p>
+                                <ul>
+                                    <li>The <strong>Service ID</strong> and <strong>Secret Token</strong> are required for authentication</li>
+                                    <li>Your <strong>Sender Name</strong> must be approved by Nimba SMS before use</li>
+                                    <li>Keep your credentials secure and never share them</li>
+                                </ul>
+                            </div>
+                        </page>
+
+                        <page string="About Nimba SMS">
+                            <div class="alert alert-success" role="alert">
+                                <h4><i class="fa fa-info-circle"/> About Nimba SMS</h4>
+                                <p><strong>Nimba SMS</strong> is a reliable SMS provider offering:</p>
+                                <ul>
+                                    <li><strong>Wide Coverage:</strong> Guinea and other African countries</li>
+                                    <li><strong>Official Python SDK:</strong> This module uses the official nimbasms Python SDK</li>
+                                    <li><strong>Batch Sending:</strong> Send to multiple recipients in one request</li>
+                                    <li><strong>Delivery Reports:</strong> Track message delivery status</li>
+                                </ul>
+
+                                <p class="mt16">For more information, visit <a href="https://www.nimbasms.com" target="_blank">www.nimbasms.com</a> or check the <a href="https://developers.nimbasms.com" target="_blank">API documentation</a>.</p>
+                            </div>
+                        </page>
+                    </notebook>
+
+                    <div class="alert alert-warning mt16" role="alert">
+                        <p><i class="fa fa-exclamation-triangle"/> <strong>Important:</strong></p>
+                        <ul class="mb-0">
+                            <li>Your <strong>Sender Name</strong> must be approved by the provider</li>
+                            <li>Test your connection before sending SMS to customers</li>
+                            <li>Keep your API credentials secure</li>
+                        </ul>
+                    </div>
+
+                </sheet>
+
+                <footer>
+                    <button name="action_test_connection"
+                            type="object"
+                            class="btn btn-secondary"
+                            string="Test Connection"
+                            icon="fa-plug"
+                            help="Verify your API credentials"/>
+
+                    <button name="action_save"
+                            type="object"
+                            class="btn btn-primary"
+                            string="Save"
+                            icon="fa-save"
+                            help="Save configuration and close"/>
+
+                    <button string="Cancel"
+                            class="btn btn-default"
+                            special="cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open the wizard -->
+    <record id="action_sms_nimba_account_wizard" model="ir.actions.act_window">
+        <field name="name">Configure Nimba SMS Account</field>
+        <field name="res_model">sms.nimba.account.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="sms_nimba_account_wizard_form"/>
+    </record>
+
+</odoo>
