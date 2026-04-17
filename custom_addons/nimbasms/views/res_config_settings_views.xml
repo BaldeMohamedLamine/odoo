@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend General Settings to add Nimba SMS Provider configuration -->
+    <record id="res_config_settings_view_form_inherit_nimba_sms" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.nimba.sms</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="1"/>
+        <field name="inherit_id" ref="sms.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <!-- SMS provider selector -->
+            <xpath expr="//widget[@service_name='sms']" position="before">
+                <field name="sms_provider"
+                       class="o_light_label"
+                       widget="radio"
+                       options="{'horizontal': true}"
+                       required="True"/>
+                <!-- Nimba SMS Configuration Section -->
+                <div class="content-group" invisible="sms_provider != 'nimba'">
+                    <!-- Manage Account Button -->
+                    <div class="row">
+                        <div class="col-lg-3"/>
+                        <div class="col-lg-9">
+                            <button name="action_open_nimba_sms_manage"
+                                    type="object"
+                                    string="Manage Account"
+                                    class="btn btn-secondary"
+                                    icon="fa-wrench"
+                                    help="Open configuration wizard"/>
+                        </div>
+                    </div>
+
+                    <!-- Help/Documentation Section -->
+                    <div class="alert alert-info mt16" role="alert">
+                        <h5><i class="fa fa-info-circle"/> Configuration</h5>
+                        <p><strong>To use Nimba SMS:</strong></p>
+                        <ol>
+                            <li>Click the <strong>"Manage Account"</strong> button above</li>
+                            <li>Enter your <strong>Service ID</strong> and <strong>Secret Token</strong> from Nimba SMS dashboard (Dashboard → Développeurs)</li>
+                            <li>Configure your approved <strong>Sender Name</strong></li>
+                            <li>Click <strong>"Test Connection"</strong> to verify your credentials</li>
+                            <li>Save the configuration</li>
+                        </ol>
+                        <p class="mb-0">
+                            Visit <a href="https://www.nimbasms.com" target="_blank">www.nimbasms.com</a> to create an account. 
+                            For API documentation, visit <a href="https://developers.nimbasms.com" target="_blank">developers.nimbasms.com</a>.
+                        </p>
+                    </div>
+                </div>
+            </xpath>
+
+            <!-- Hide IAP widget when Nimba SMS is selected -->
+            <xpath expr="//widget[@service_name='sms']" position="attributes">
+                <attribute name="invisible">sms_provider == 'nimba'</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

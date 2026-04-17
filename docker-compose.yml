@@ -1,9 +1,13 @@
 services:
   traefik:
-    image: traefik:v3.1
+    image: traefik:v2.10
+    user: "0:0"
+    group_add:
+      - "988"
     command:
       - --api.dashboard=true
       - --providers.docker=true
+      - --providers.docker.endpoint=unix:///var/run/docker.sock
       - --providers.docker.exposedbydefault=false
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
@@ -16,6 +20,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik_letsencrypt:/letsencrypt
@@ -60,6 +66,15 @@ services:
       ODOO_LIMIT_TIME_REAL: ${ODOO_LIMIT_TIME_REAL}
       ODOO_LIMIT_MEMORY_SOFT: ${ODOO_LIMIT_MEMORY_SOFT}
       ODOO_LIMIT_MEMORY_HARD: ${ODOO_LIMIT_MEMORY_HARD}
+      DJOMY_CLIENT_ID: ${DJOMY_CLIENT_ID}
+      DJOMY_CLIENT_SECRET: ${DJOMY_CLIENT_SECRET}
+      DJOMY_BASE_URL: ${DJOMY_BASE_URL}
+      DJOMY_MODE: ${DJOMY_MODE}
+      DJOMY_WEBHOOK_SECRET: ${DJOMY_WEBHOOK_SECRET}
+      NIMBA_SERVICE_ID: ${NIMBA_SERVICE_ID}
+      NIMBA_SECRET_TOKEN: ${NIMBA_SECRET_TOKEN}
+      NIMBA_SENDER_NAME: ${NIMBA_SENDER_NAME}
+      NIMBA_WEBHOOK_SECRET: ${NIMBA_WEBHOOK_SECRET}
     volumes:
       - odoo_data:/var/lib/odoo
       - ./custom_addons:/opt/odoo/custom_addons:ro
